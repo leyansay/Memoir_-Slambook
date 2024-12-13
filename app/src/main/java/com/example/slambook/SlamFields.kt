@@ -1,5 +1,6 @@
 package com.example.slambook
 
+import PersonalInfo
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,19 +13,7 @@ import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class PersonalInfo(
-    val name: String,
-    val nickname: String,
-    val hometown: String,
-    val age: String,
-    val gender: String,
-    val color: String,
-    val food: String,
-    val place: String,
-    val hobbies: String,
-    val sports: String,
-    val dateAdded: String // Added field for date
-)
+
 
 class SlamFields : AppCompatActivity() {
     private lateinit var binding: ActivitySlamFieldsBinding
@@ -41,7 +30,27 @@ class SlamFields : AppCompatActivity() {
 
         // Set Done button click listener
         binding.buttonDone.setOnClickListener {
-            savePersonalInfo()
+
+            val name = binding.name.text.toString().trim()
+            val age = binding.editTextAge.text.toString().trim()
+            val nickname = binding.editTextText5.text.toString().trim()
+            val hometown = binding.editTextHometown.text.toString().trim()
+            val gender = binding.spinnergender.selectedItem.toString().trim()
+            val color = binding.editTextColor.text.toString().trim()
+            val comfort = binding.editTextPlace.text.toString().trim()
+            val food = binding.editTextFood.text.toString().trim()
+            val hobbies = binding.editTextHobbies.text.toString().trim()
+            val sports = binding.editTextSports.text.toString().trim()
+
+
+            if (name.isEmpty() || age.isEmpty() || nickname.isEmpty() || hometown.isEmpty() || gender.isEmpty() || color.isEmpty() || comfort.isEmpty()
+                ||food.isEmpty() || hobbies.isEmpty() || sports.isEmpty()) {
+                Toast.makeText(this, "All fields must be filled out", Toast.LENGTH_SHORT).show()
+            } else {
+                savePersonalInfo()
+                Toast.makeText(this, "Data submitted successfully!", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         binding.back.setOnClickListener{
@@ -60,8 +69,8 @@ class SlamFields : AppCompatActivity() {
             age = binding.editTextAge.text.toString(),
             gender = binding.spinnergender.selectedItem.toString(),
             color = binding.editTextColor.text.toString(),
+            comfort = binding.editTextPlace.text.toString(),
             food = binding.editTextFood.text.toString(),
-            place = binding.editTextPlace.text.toString(),
             hobbies = binding.editTextHobbies.text.toString(),
             sports = binding.editTextSports.text.toString(),
             dateAdded = currentDateTime
@@ -99,7 +108,8 @@ class SlamFields : AppCompatActivity() {
 
     // Helper function to get the current date and time
     private fun getCurrentDateTime(): String {
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
         return sdf.format(Date())
     }
+
 }
